@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.xavier_laffargue.podcast" >
+
+    <!-- android:icon="@mipmap/ic_launcher"-->
+    <application
+        android:largeHeap="true"
+        android:allowBackup="true"
+        android:icon="@drawable/logo_podcast"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".ListePodcast"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AddPodcast"
+            android:label="@string/title_activity_activity_add_podcast" >
+        </activity>
+        <activity
+            android:name=".SettingPodcast"
+            android:label="@string/title_activity_activity_setting_podcast" >
+        </activity>
+        <activity
+            android:name=".ListeShow"
+            android:label="@string/title_activity_activity_liste_show" >
+        </activity>
+
+
+
+    </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+</manifest>

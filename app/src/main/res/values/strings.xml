@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Podcast</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="action_add">Ajouter</string>
+    <string name="title_activity_activity_add_podcast">Ajouter un Podcast</string>
+    <string name="title_activity_activity_liste_show">Emission</string>
+    <string name="title_activity_activity_setting_podcast">Paramètres</string>
+</resources>
