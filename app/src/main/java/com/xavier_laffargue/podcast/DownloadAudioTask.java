@@ -21,7 +21,7 @@ public class DownloadAudioTask {
     {
         this.audioFileURL = _audioFileURL;
 
-        Log.d("AndroidPodcast", "construct audio file url");
+        Log.d(CONF_Application.NAME_LOG, "construct audio file url");
     }
 
 
@@ -31,9 +31,9 @@ public class DownloadAudioTask {
             URL url = new URL(audioFileURL);
             File file = new File(fileName);
 
-            Log.d("AndroidPodcast", "download begining");
-            Log.d("AndroidPodcast", "download url:" + url);
-            Log.d("AndroidPodcast", "downloaded file name:" + fileName);
+            Log.d(CONF_Application.NAME_LOG, "download begining");
+            Log.d(CONF_Application.NAME_LOG, "download url:" + url);
+            Log.d(CONF_Application.NAME_LOG, "downloaded file name:" + fileName);
 
             /* Open a connection to that URL. */
             URLConnection con = url.openConnection();
@@ -53,7 +53,7 @@ public class DownloadAudioTask {
             bis.close();
 
         } catch (IOException e) {
-            Log.d("AndroidPodcast", "Error: " + e);
+            Log.d(CONF_Application.NAME_LOG, "Error: " + e);
         }
 
     }

@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".ListePodcast"
+            android:name=".ACT_ListePodcast"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,15 +19,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddPodcast"
+            android:name=".ACT_AddPodcast"
             android:label="@string/title_activity_activity_add_podcast" >
         </activity>
         <activity
-            android:name=".SettingPodcast"
+            android:name=".ACT_SettingPodcast"
             android:label="@string/title_activity_activity_setting_podcast" >
         </activity>
         <activity
-            android:name=".ListeShow"
+            android:name=".ACT_ListeShow"
             android:label="@string/title_activity_activity_liste_show" >
         </activity>
 

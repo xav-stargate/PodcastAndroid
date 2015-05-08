@@ -5,22 +5,20 @@ package com.xavier_laffargue.podcast;
  */
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
-public class ArrayAdapterPodcast extends BaseAdapter {
+public class ADAPTER_Podcast extends BaseAdapter {
     private final Context context;
-    private final List<Podcast> mesPodcasts;
+    private final List<BO_Podcast> mesPodcasts;
 
-    public ArrayAdapterPodcast(Context context, List<Podcast> _podcast) {
+    public ADAPTER_Podcast(Context context, List<BO_Podcast> _podcast) {
 
         this.context = context;
         this.mesPodcasts = _podcast;
@@ -55,8 +53,7 @@ public class ArrayAdapterPodcast extends BaseAdapter {
         TextView idPodcast = (TextView) rowView.findViewById(R.id.id_podcast);
         ImageView imagePodcast = (ImageView) rowView.findViewById(R.id.image_podcast);
 
-        Podcast pod = mesPodcasts.get(position);
-        Log.d("PODCASTXAVIER id", Integer.toString(position));
+        BO_Podcast pod = mesPodcasts.get(position);
 
         nomPodcast.setText(pod.getNom());
         idPodcast.setText(Long.toString(pod.getId()));

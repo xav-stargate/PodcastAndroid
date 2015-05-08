@@ -14,7 +14,7 @@ import android.widget.ListView;
 
 
 
-public class ListePodcast extends Activity {
+public class ACT_ListePodcast extends Activity {
 
     private PodcastDataSource mesPodcast;
     private ImageButton imgAddPodcast;
@@ -28,25 +28,14 @@ public class ListePodcast extends Activity {
 
         imgAddPodcast = (ImageButton)findViewById(R.id.add_button_listPodcast);
 
-        //Base de données SQLite
+        //Database
         mesPodcast = new PodcastDataSource(this);
         mesPodcast.open();
 
 
         listView = (ListView) findViewById(R.id.list);
-/*
-        ListAdapter adapter = new SimpleAdapter(
-                ListePodcast.this, mesPodcast.getAllInHashMap(),
-                R.layout.list_podcast, new String[] { "id", "nom", "image" },
-                new int[] { R.id.id_podcast, R.id.nom_podcast, R.id.image_podcast });
-        // updating listview
-*/
 
-
-
-        ArrayAdapterPodcast adapter = new ArrayAdapterPodcast(this, mesPodcast.getAllPodcast());
-
-
+        ADAPTER_Podcast adapter = new ADAPTER_Podcast(this, mesPodcast.getAllPodcast());
         listView.setAdapter(adapter);
 
 
@@ -55,11 +44,11 @@ public class ListePodcast extends Activity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
-                Podcast o = (Podcast) listView.getItemAtPosition(position);
+                BO_Podcast o = (BO_Podcast) listView.getItemAtPosition(position);
 
-                Intent intent = new Intent(ListePodcast.this, ListeShow.class);
+                Intent intent = new Intent(ACT_ListePodcast.this, ACT_ListeShow.class);
                 //based on item add info to intent
-                Log.d("PODCASTXAVIER id : ", Long.toString(o.getId()));
+                Log.d(CONF_Application.NAME_LOG, " id podcast : " + Long.toString(o.getId()));
                 intent.putExtra("idPodcast", o.getId());
                 startActivity(intent);
 
@@ -102,10 +91,10 @@ public class ListePodcast extends Activity {
 
 
     public void openAdd() {
-        startActivity(new Intent(this, AddPodcast.class));
+        startActivity(new Intent(this, ACT_AddPodcast.class));
     }
 
     public void openSettings() {
-        startActivity(new Intent(this, SettingPodcast.class));
+        startActivity(new Intent(this, ACT_SettingPodcast.class));
     }
 }

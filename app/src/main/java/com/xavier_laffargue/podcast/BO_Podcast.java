@@ -2,8 +2,9 @@ package com.xavier_laffargue.podcast;
 
 /**
  * Created by Xavier on 25/04/2015.
+ * Business Object : Podcast
  */
-public class Podcast
+public class BO_Podcast
 {
     private long id;
     private String nom;
@@ -11,9 +12,9 @@ public class Podcast
     private String description;
 
 
-    public Podcast() { }
+    public BO_Podcast() { }
 
-    public Podcast(String _nom, String _description) { this.nom = _nom; this.description = _description; }
+    public BO_Podcast(String _nom, String _description) { this.nom = _nom; this.description = _description; }
 
     public long getId() {
         return id;

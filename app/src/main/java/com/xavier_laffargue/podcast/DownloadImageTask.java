@@ -6,8 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -16,12 +14,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 /**
  * Created by Xavier on 23/04/2015.
@@ -31,9 +26,9 @@ class DownloadImageTask extends AsyncTask<String, Void, Bitmap>
     Bitmap bitmap;
     Context context;
     ProgressDialog pDialog;
-    Podcast nouveauPodcast;
+    BO_Podcast nouveauPodcast;
 
-    public DownloadImageTask(Context monContext, Podcast _nouveauPodcast)
+    public DownloadImageTask(Context monContext, BO_Podcast _nouveauPodcast)
     {
         this.nouveauPodcast = _nouveauPodcast;
         this.context = monContext;

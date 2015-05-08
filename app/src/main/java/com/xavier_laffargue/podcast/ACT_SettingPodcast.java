@@ -2,13 +2,12 @@ package com.xavier_laffargue.podcast;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class SettingPodcast extends Activity {
+public class ACT_SettingPodcast extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +40,10 @@ public class SettingPodcast extends Activity {
 
 
     public void openAdd() {
-        startActivity(new Intent(this, AddPodcast.class));
+        startActivity(new Intent(this, ACT_AddPodcast.class));
     }
 
     public void openSettings() {
-        startActivity(new Intent(this, SettingPodcast.class));
+        startActivity(new Intent(this, ACT_SettingPodcast.class));
     }
 }

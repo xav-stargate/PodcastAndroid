@@ -2,8 +2,10 @@ package com.xavier_laffargue.podcast;
 
 /**
  * Created by Xavier on 28/04/2015.
+ * Business Object : Show
+ *
  */
-public class Show
+public class BO_Show
 {
 
     private String title;

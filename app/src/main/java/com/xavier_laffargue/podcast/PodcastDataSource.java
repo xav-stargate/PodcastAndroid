@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 
-import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +21,10 @@ public class PodcastDataSource {
     private SQLiteDatabase database;
     private SQLiteHelper dbHelper;
     private String[] allColumns = { SQLiteHelper.COLUMN_ID,
-            SQLiteHelper.COLUMN_NOM, SQLiteHelper.COLUMN_IMAGE, SQLiteHelper.COLUMN_DESCRIPTION };
+            SQLiteHelper.COLUMN_NOM,
+            SQLiteHelper.COLUMN_IMAGE,
+            SQLiteHelper.COLUMN_DESCRIPTION
+    };
 
     public PodcastDataSource(Context context) {
         dbHelper = new SQLiteHelper(context);
@@ -36,13 +38,14 @@ public class PodcastDataSource {
         dbHelper.close();
     }
 
-    public Podcast ajouterPodcast(Podcast nouveauPodcast, byte[] image) {
+    public BO_Podcast ajouterPodcast(BO_Podcast nouveauPodcast, byte[] image) {
         ContentValues values = new ContentValues();
+
         values.put(SQLiteHelper.COLUMN_NOM, nouveauPodcast.getNom());
         values.put(SQLiteHelper.COLUMN_IMAGE, image);
         values.put(SQLiteHelper.COLUMN_DESCRIPTION, nouveauPodcast.getDescription());
 
-        Log.d("PODCASTXAVIER", "Ajout d'un podcast : " + nouveauPodcast.getNom());
+        Log.d(CONF_Application.NAME_LOG, " ADD PODCAST " + nouveauPodcast.getNom());
 
 
         long insertId = database.insert(SQLiteHelper.TABLE_PODCAST, null, values);
@@ -51,25 +54,25 @@ public class PodcastDataSource {
                 allColumns, SQLiteHelper.COLUMN_ID + " = " + insertId, null,
                 null, null, null);
         cursor.moveToFirst();
-        Podcast newComment = cursorToPodcast(cursor);
+        BO_Podcast newComment = cursorToPodcast(cursor);
 
 
         cursor.close();
         return newComment;
     }
 
-    public void supprimerPodcast(Podcast monPodcast) {
+    public void supprimerPodcast(BO_Podcast monPodcast) {
         long id = monPodcast.getId();
-        System.out.println("Comment deleted with id: " + id);
+
         database.delete(SQLiteHelper.TABLE_PODCAST, SQLiteHelper.COLUMN_ID
                 + " = " + id, null);
     }
 
-    public Podcast getOnePodcast(long id)
+    public BO_Podcast getOnePodcast(long id)
     {
 
 
-        Podcast newComment;
+        BO_Podcast newComment;
         String selectQuery = "SELECT * FROM "+SQLiteHelper.TABLE_PODCAST+" WHERE id=?";
         Cursor c = database.rawQuery(selectQuery, new String[] { Long.toString(id) });
         if (c.moveToFirst()) {
@@ -83,19 +86,19 @@ public class PodcastDataSource {
         return newComment;
     }
 
-    public List<Podcast> getAllPodcast() {
-        List<Podcast> comments = new ArrayList<Podcast>();
+    public List<BO_Podcast> getAllPodcast() {
+        List<BO_Podcast> comments = new ArrayList<BO_Podcast>();
 
         Cursor cursor = database.query(SQLiteHelper.TABLE_PODCAST,
                 allColumns, null, null, null, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Podcast comment = cursorToPodcast(cursor);
+            BO_Podcast comment = cursorToPodcast(cursor);
             comments.add(comment);
             cursor.moveToNext();
         }
-        // assurez-vous de la fermeture du curseur
+
         cursor.close();
         return comments;
     }
@@ -126,8 +129,8 @@ public class PodcastDataSource {
 
         return liste;
     }
-    private Podcast cursorToPodcast(Cursor cursor) {
-        Podcast comment = new Podcast();
+    private BO_Podcast cursorToPodcast(Cursor cursor) {
+        BO_Podcast comment = new BO_Podcast();
         comment.setId(cursor.getLong(0));
         comment.setNom(cursor.getString(1));
         comment.setImage(cursor.getBlob(2));
