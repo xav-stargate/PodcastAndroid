@@ -1,11 +1,13 @@
 package com.xavier_laffargue.podcast;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -23,27 +25,29 @@ import java.io.InputStream;
  */
 class DownloadImageTask extends AsyncTask<String, Void, Bitmap>
 {
+    Callback callback;
     Bitmap bitmap;
-    Context context;
     ProgressDialog pDialog;
-    BO_Podcast nouveauPodcast;
 
-    public DownloadImageTask(Context monContext, BO_Podcast _nouveauPodcast)
+
+    public DownloadImageTask(Activity _context, Callback call)
     {
-        this.nouveauPodcast = _nouveauPodcast;
-        this.context = monContext;
+        Log.d(CONF_Application.NAME_LOG, "Construct Download img");
+
+        callback = call;
+        pDialog = new ProgressDialog(_context);
+        pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pDialog.setMessage("Ajout du podcast...");
+        pDialog.setIndeterminate(true);
+        pDialog.setCancelable(false);
     }
 
     @Override
     protected void onPreExecute()
     {
         super.onPreExecute();
-        pDialog = new ProgressDialog(context);
-        pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        pDialog.setMessage("Ajout du podcast...");
-        pDialog.setIndeterminate(true);
-        pDialog.setCancelable(false);
         pDialog.show();
+        Log.d(CONF_Application.NAME_LOG, "Begin Download img");
     }
 
 
@@ -76,18 +80,10 @@ class DownloadImageTask extends AsyncTask<String, Void, Bitmap>
 
     protected void onPostExecute(Bitmap result)
     {
-        bitmap = result;
-
-        PodcastDataSource mesPodcast;
-        mesPodcast = new PodcastDataSource(context);
-        mesPodcast.open();
-        mesPodcast.ajouterPodcast(nouveauPodcast, UtilityImage.toBytes(bitmap));
+        Log.d(CONF_Application.NAME_LOG, "Finish Download img");
+        callback.run(result);
         pDialog.dismiss();
-    }
 
-    public Bitmap getBitmap() {
-
-        return bitmap;
     }
 
     public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
@@ -105,7 +101,4 @@ class DownloadImageTask extends AsyncTask<String, Void, Bitmap>
         return resizedBitmap;
     }
 
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
-    }
 }
