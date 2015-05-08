@@ -1,26 +1,17 @@
 package com.xavier_laffargue.podcast;
 
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.ListActivity;
+
 import android.content.Intent;
-import android.media.Image;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.internal.widget.AdapterViewCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 
 public class ListePodcast extends Activity {
