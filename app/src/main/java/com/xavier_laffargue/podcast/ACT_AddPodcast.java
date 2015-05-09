@@ -20,7 +20,6 @@ public class ACT_AddPodcast extends Activity {
 
     private Button ajouter;
     private PodcastDataSource mesPodcast;
-    private ProgressDialog pDialog;
 
 
     @Override
@@ -31,7 +30,6 @@ public class ACT_AddPodcast extends Activity {
         ajouter = (Button)findViewById(R.id.btn_ajouter_podcast);
 
         mesPodcast = new PodcastDataSource(this);
-        pDialog = new ProgressDialog(ACT_AddPodcast.this);
 
         mesPodcast.open();
 
@@ -58,7 +56,6 @@ public class ACT_AddPodcast extends Activity {
 
         DownloadImageTask request = new DownloadImageTask(this, new Callback(){
             public void run(Bitmap result){
-
                 //Enregistrement dans la base
                 BO_Podcast nouveauPodcast1 = new BO_Podcast(namePodcast, descPodcast);
 
