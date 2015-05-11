@@ -26,37 +26,26 @@ public class XmlParser {
         shows = new ArrayList<BO_Show>();
 
 
-        /*
-         * Etape 1 : récupération d'une instance de la classe "DocumentBuilderFactory"
-         */
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
         try {
-            /*
-             * Etape 2 : création d'un parseur
-             */
+
             final DocumentBuilder builder = factory.newDocumentBuilder();
 
-	    /*
-	     * Etape 3 : création d'un Document
-	     */
+
             final Document document= builder.parse(new File("RMCInfochannel54.xml"));
 
             //Affiche du prologue
             System.out.println("*************PROLOGUE************");
 
-	    /*
-	     * Etape 4 : récupération de l'Element racine
-	     */
+
             final Element racine = document.getDocumentElement();
 
             //Affichage de l'élément racine
             System.out.println("\n*************RACINE************");
             System.out.println(racine.getNodeName());
 
-	    /*
-	     * Etape 5 : récupération des personnes
-	     */
+
             final NodeList racineNoeuds = racine.getChildNodes();
             final int nbRacineNoeuds = racineNoeuds.getLength();
 
@@ -90,11 +79,6 @@ public class XmlParser {
                     }
 
 
-
-
-		    /*
-		     * Etape 7 : récupération des numéros de téléphone
-		     */
                     final NodeList item = channel.getElementsByTagName("item");
                     final int nbTelephonesElements = item.getLength();
 
