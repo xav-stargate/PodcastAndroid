@@ -1,89 +1,144 @@
 package com.xavier_laffargue.podcast;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import org.xml.sax.Attributes;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 public class XmlParser {
 
-    public static void main(String argv[]) {
+    BO_Podcast podcast;
+    ArrayList<BO_Show> shows;
+
+
+    public XmlParser() {
+
+        podcast = new BO_Podcast();
+        shows = new ArrayList<BO_Show>();
+
+
+        /*
+         * Etape 1 : récupération d'une instance de la classe "DocumentBuilderFactory"
+         */
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
         try {
+            /*
+             * Etape 2 : création d'un parseur
+             */
+            final DocumentBuilder builder = factory.newDocumentBuilder();
 
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            SAXParser saxParser = factory.newSAXParser();
+	    /*
+	     * Etape 3 : création d'un Document
+	     */
+            final Document document= builder.parse(new File("RMCInfochannel54.xml"));
 
-            DefaultHandler handler = new DefaultHandler() {
+            //Affiche du prologue
+            System.out.println("*************PROLOGUE************");
 
-                boolean bfname = false;
-                boolean blname = false;
-                boolean bnname = false;
-                boolean bsalary = false;
+	    /*
+	     * Etape 4 : récupération de l'Element racine
+	     */
+            final Element racine = document.getDocumentElement();
 
-                public void startElement(String uri, String localName,String qName,
-                                         Attributes attributes) throws SAXException {
+            //Affichage de l'élément racine
+            System.out.println("\n*************RACINE************");
+            System.out.println(racine.getNodeName());
 
-                    System.out.println("Start Element :" + qName);
+	    /*
+	     * Etape 5 : récupération des personnes
+	     */
+            final NodeList racineNoeuds = racine.getChildNodes();
+            final int nbRacineNoeuds = racineNoeuds.getLength();
 
-                    if (qName.equalsIgnoreCase("FIRSTNAME")) {
-                        bfname = true;
+            for (int i = 0; i<nbRacineNoeuds; i++) {
+                if(racineNoeuds.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                    final Element channel = (Element) racineNoeuds.item(i);
+
+
+                    System.out.println("\n*************INFO GENERALE************");
+
+                    final Element nom = (Element) channel.getElementsByTagName("title").item(0);
+                    final Element link = (Element) channel.getElementsByTagName("link").item(0);
+                    final Element description = (Element) channel.getElementsByTagName("description").item(0);
+                    //final Element image = (Element) channel.getElementsByTagName("image").item(0);
+
+                    podcast.setNom(nom.getTextContent());
+                    podcast.setDescription(description.getTextContent());
+
+                    System.out.println("title : " + nom.getTextContent());
+                    System.out.println("link : " + link.getTextContent());
+                    System.out.println("description : " + description.getTextContent());
+
+
+
+                    final NodeList image = channel.getElementsByTagName("image");
+                    final int nbImgElements = image.getLength();
+
+                    for(int j = 0; j<nbImgElements; j++) {
+                        final Element img = (Element) image.item(j);
+                        podcast.setUrlImage(img.getElementsByTagName("url").item(0).getTextContent());
                     }
 
-                    if (qName.equalsIgnoreCase("LASTNAME")) {
-                        blname = true;
-                    }
 
-                    if (qName.equalsIgnoreCase("NICKNAME")) {
-                        bnname = true;
-                    }
 
-                    if (qName.equalsIgnoreCase("SALARY")) {
-                        bsalary = true;
-                    }
 
+		    /*
+		     * Etape 7 : récupération des numéros de téléphone
+		     */
+                    final NodeList item = channel.getElementsByTagName("item");
+                    final int nbTelephonesElements = item.getLength();
+
+                    for(int j = 0; j<nbTelephonesElements; j++) {
+
+                        BO_Show unShow = new BO_Show();
+
+
+                        System.out.println("\n*************SHOW************");
+
+                        final Element show = (Element) item.item(j);
+
+
+                        final Element title = (Element) show.getElementsByTagName("title").item(0);
+                        final Element description_show = (Element) show.getElementsByTagName("description").item(0);
+                        final Element enclosure = (Element) show.getElementsByTagName("enclosure").item(0);
+                        final Element subtitle = (Element) show.getElementsByTagName("itunes:subtitle").item(0);
+
+
+                        unShow.setDescription(subtitle.getTextContent());
+                        unShow.setTitle(title.getTextContent());
+                        unShow.setMp3(enclosure.getAttribute("url"));
+                        /* unShow.setDatePublication();
+
+                        System.out.println("title : " + title.getTextContent());
+                        System.out.println("description_show : " + description_show.getTextContent());
+                        System.out.println("enclosure : " + link.getTextContent());
+                        System.out.println("subtitle : " + subtitle.getTextContent());
+                        System.out.println("audio url : " + enclosure.getAttribute("url"));
+                        */
+                        shows.add(unShow);
+
+                    }
                 }
-
-                public void endElement(String uri, String localName,
-                                       String qName) throws SAXException {
-
-                    System.out.println("End Element :" + qName);
-
-                }
-
-                public void characters(char ch[], int start, int length) throws SAXException {
-
-                    if (bfname) {
-                        System.out.println("First Name : " + new String(ch, start, length));
-                        bfname = false;
-                    }
-
-                    if (blname) {
-                        System.out.println("Last Name : " + new String(ch, start, length));
-                        blname = false;
-                    }
-
-                    if (bnname) {
-                        System.out.println("Nick Name : " + new String(ch, start, length));
-                        bnname = false;
-                    }
-
-                    if (bsalary) {
-                        System.out.println("Salary : " + new String(ch, start, length));
-                        bsalary = false;
-                    }
-
-                }
-
-            };
-
-            saxParser.parse("c:\\file.xml", handler);
-
-        } catch (Exception e) {
+            }
+        }
+        catch (final ParserConfigurationException e) {
             e.printStackTrace();
         }
-
+        catch (final SAXException e) {
+            e.printStackTrace();
+        }
+        catch (final IOException e) {
+            e.printStackTrace();
+        }
     }
-
 }

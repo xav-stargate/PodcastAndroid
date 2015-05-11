@@ -8,6 +8,7 @@ public class BO_Podcast
 {
     private long id;
     private String nom;
+    private String urlImage;
     private byte[] image;
     private String description;
 
@@ -46,5 +47,14 @@ public class BO_Podcast
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+
+    public String getUrlImage() {
+        return urlImage;
+    }
+
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
     }
 }
