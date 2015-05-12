@@ -7,19 +7,25 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Xml;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
 
 public class ACT_AddPodcast extends Activity {
 
     private Button ajouter;
+    private EditText url;
     private PodcastDataSource mesPodcast;
+    private BO_Podcast podcastDownloaded;
 
 
     @Override
@@ -27,7 +33,8 @@ public class ACT_AddPodcast extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_add_podcast);
 
-        ajouter = (Button)findViewById(R.id.btn_ajouter_podcast);
+        ajouter = (Button)   findViewById(R.id.btn_ajouter_podcast);
+        url     = (EditText) findViewById(R.id.txt_url_addPodcast);
 
         mesPodcast = new PodcastDataSource(this);
 
@@ -44,24 +51,27 @@ public class ACT_AddPodcast extends Activity {
 
 
     public void addPodcastXML(String urlFileXML) {
-        //Téléchargement du fichier XML
 
 
-        //Parsage du XML
-        final String imagPodcast = "http://media.radiofrance-podcast.net/podcast09/RF_OMM_0000009471_ITE.jpg";
-        final String namePodcast = "A ton âge";
-        final String descPodcast = "durée : 00:08:47 - A ton age - par : Caroline Gilet - Anne et Pascal sont 'nés dans les pommes de terre', se sont mariés et on travaillé 28 ans côte à côte dans leur ferme de Lumigny. Aujourd'hui, la retraite approche et ils s'apprêtent à transmettre l'exploitation à un de leurs fils.";
+        DownloadReadXmlTask pod = new DownloadReadXmlTask(this, new Callback(){
+            public void run(Object result){
+                //Enregistrement dans la base
 
+                podcastDownloaded = (BO_Podcast)result;
+
+
+
+            }});
+        pod.execute(url.getText().toString());
 
 
         DownloadImageTask request = new DownloadImageTask(this, new Callback(){
-            public void run(Bitmap result){
-                //Enregistrement dans la base
-                BO_Podcast nouveauPodcast1 = new BO_Podcast(namePodcast, descPodcast);
-
-                mesPodcast.ajouterPodcast(nouveauPodcast1, UtilityImage.toBytes(result));
+            public void run(Object result){
+                mesPodcast.ajouterPodcast(podcastDownloaded, UtilityImage.toBytes((Bitmap)result));
             }});
-        request.execute(imagPodcast);
+        request.execute(podcastDownloaded.getUrlImage());
+
+
 
 
     }

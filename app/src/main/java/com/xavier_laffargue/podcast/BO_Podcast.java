@@ -1,11 +1,13 @@
 package com.xavier_laffargue.podcast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Xavier on 25/04/2015.
  * Business Object : Podcast
  */
-public class BO_Podcast
-{
+public class BO_Podcast {
     private long id;
     private String nom;
     private String urlImage;
@@ -13,9 +15,15 @@ public class BO_Podcast
     private String description;
 
 
-    public BO_Podcast() { }
+    private ArrayList<BO_Show> shows;
 
-    public BO_Podcast(String _nom, String _description) { this.nom = _nom; this.description = _description; }
+    public BO_Podcast() {
+    }
+
+    public BO_Podcast(String _nom, String _description) {
+        this.nom = _nom;
+        this.description = _description;
+    }
 
     public long getId() {
         return id;
@@ -57,4 +65,16 @@ public class BO_Podcast
     public void setUrlImage(String urlImage) {
         this.urlImage = urlImage;
     }
+
+
+    public ArrayList<BO_Show> getShows() {
+        return shows;
+    }
+
+
+    public void setShows(ArrayList<BO_Show> shows) {
+        this.shows=shows;
+    }
+
+
 }

@@ -7,5 +7,5 @@ import android.graphics.Bitmap;
  */
 public interface Callback {
 
-    void run(Bitmap result);
+    void run(Object result);
 }

@@ -4,10 +4,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -16,14 +19,27 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class XmlParser {
 
-    BO_Podcast podcast;
-    ArrayList<BO_Show> shows;
 
 
-    public XmlParser() {
+    private BO_Podcast podcast;
+    private ArrayList<BO_Show> shows;
+
+
+    public BO_Podcast getPodcast() {
+        return podcast;
+    }
+
+    public void setPodcast(BO_Podcast podcast) {
+        this.podcast = podcast;
+    }
+
+
+
+
+    public XmlParser(URL url) {
 
         podcast = new BO_Podcast();
-        shows = new ArrayList<BO_Show>();
+        shows = new ArrayList<>();
 
 
         final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -33,18 +49,10 @@ public class XmlParser {
             final DocumentBuilder builder = factory.newDocumentBuilder();
 
 
-            final Document document= builder.parse(new File("RMCInfochannel54.xml"));
-
-            //Affiche du prologue
-            System.out.println("*************PROLOGUE************");
-
+            //final Document document= builder.parse(new File("RMCInfochannel54.xml"));
+            final Document document= builder.parse(new InputSource(url.openStream()));
 
             final Element racine = document.getDocumentElement();
-
-            //Affichage de l'élément racine
-            System.out.println("\n*************RACINE************");
-            System.out.println(racine.getNodeName());
-
 
             final NodeList racineNoeuds = racine.getChildNodes();
             final int nbRacineNoeuds = racineNoeuds.getLength();
@@ -64,9 +72,7 @@ public class XmlParser {
                     podcast.setNom(nom.getTextContent());
                     podcast.setDescription(description.getTextContent());
 
-                    System.out.println("title : " + nom.getTextContent());
-                    System.out.println("link : " + link.getTextContent());
-                    System.out.println("description : " + description.getTextContent());
+
 
 
 
@@ -82,6 +88,8 @@ public class XmlParser {
                     final NodeList item = channel.getElementsByTagName("item");
                     final int nbTelephonesElements = item.getLength();
 
+
+
                     for(int j = 0; j<nbTelephonesElements; j++) {
 
                         BO_Show unShow = new BO_Show();
@@ -93,7 +101,7 @@ public class XmlParser {
 
 
                         final Element title = (Element) show.getElementsByTagName("title").item(0);
-                        final Element description_show = (Element) show.getElementsByTagName("description").item(0);
+                        //final Element description_show = (Element) show.getElementsByTagName("description").item(0);
                         final Element enclosure = (Element) show.getElementsByTagName("enclosure").item(0);
                         final Element subtitle = (Element) show.getElementsByTagName("itunes:subtitle").item(0);
 
@@ -101,17 +109,16 @@ public class XmlParser {
                         unShow.setDescription(subtitle.getTextContent());
                         unShow.setTitle(title.getTextContent());
                         unShow.setMp3(enclosure.getAttribute("url"));
-                        /* unShow.setDatePublication();
 
-                        System.out.println("title : " + title.getTextContent());
-                        System.out.println("description_show : " + description_show.getTextContent());
-                        System.out.println("enclosure : " + link.getTextContent());
-                        System.out.println("subtitle : " + subtitle.getTextContent());
-                        System.out.println("audio url : " + enclosure.getAttribute("url"));
-                        */
+
+
                         shows.add(unShow);
 
+
                     }
+
+
+                    podcast.setShows(shows);
                 }
             }
         }
