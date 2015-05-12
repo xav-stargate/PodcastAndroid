@@ -1,5 +1,7 @@
 package com.xavier_laffargue.podcast;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +15,6 @@ public class BO_Podcast {
     private String urlImage;
     private byte[] image;
     private String description;
-
-
     private ArrayList<BO_Show> shows;
 
     public BO_Podcast() {
@@ -75,6 +75,7 @@ public class BO_Podcast {
     public void setShows(ArrayList<BO_Show> shows) {
         this.shows=shows;
     }
+
 
 
 }

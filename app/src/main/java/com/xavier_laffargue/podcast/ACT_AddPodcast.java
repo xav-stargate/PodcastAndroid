@@ -59,17 +59,12 @@ public class ACT_AddPodcast extends Activity {
 
                 podcastDownloaded = (BO_Podcast)result;
 
-
+                mesPodcast.ajouterPodcast(podcastDownloaded);
 
             }});
         pod.execute(url.getText().toString());
 
 
-        DownloadImageTask request = new DownloadImageTask(this, new Callback(){
-            public void run(Object result){
-                mesPodcast.ajouterPodcast(podcastDownloaded, UtilityImage.toBytes((Bitmap)result));
-            }});
-        request.execute(podcastDownloaded.getUrlImage());
 
 
 

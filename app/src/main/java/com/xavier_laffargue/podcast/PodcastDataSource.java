@@ -38,11 +38,11 @@ public class PodcastDataSource {
         dbHelper.close();
     }
 
-    public BO_Podcast ajouterPodcast(BO_Podcast nouveauPodcast, byte[] image) {
+    public BO_Podcast ajouterPodcast(BO_Podcast nouveauPodcast) {
         ContentValues values = new ContentValues();
 
         values.put(SQLiteHelper.COLUMN_NOM, nouveauPodcast.getNom());
-        values.put(SQLiteHelper.COLUMN_IMAGE, image);
+        values.put(SQLiteHelper.COLUMN_IMAGE, nouveauPodcast.getImage());
         values.put(SQLiteHelper.COLUMN_DESCRIPTION, nouveauPodcast.getDescription());
 
         Log.d(CONF_Application.NAME_LOG, " ADD PODCAST " + nouveauPodcast.getNom());

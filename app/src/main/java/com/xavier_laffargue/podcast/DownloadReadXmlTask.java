@@ -2,11 +2,13 @@ package com.xavier_laffargue.podcast;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Xavier on 12/05/2015.
@@ -43,8 +45,6 @@ class DownloadReadXmlTask extends AsyncTask<String, Void, BO_Podcast>
     protected BO_Podcast doInBackground(String... urls) {
 
 
-
-        String urlStr = urls[0];
         podcast = null;
 
         try
@@ -58,6 +58,22 @@ class DownloadReadXmlTask extends AsyncTask<String, Void, BO_Podcast>
         }
 
 
+        try
+        {
+            DownloadImageTask d = new DownloadImageTask(podcast.getUrlImage());
+            Log.d(CONF_Application.NAME_LOG, podcast.getUrlImage());
+            d.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            podcast.setImage(UtilityImage.toBytes(d.get()));
+
+        }
+        catch(InterruptedException ex)
+        {
+            Log.d(CONF_Application.NAME_LOG, "InterruptedException " + ex.toString());
+        }
+        catch (ExecutionException ex)
+        {
+            Log.d(CONF_Application.NAME_LOG, "ExecutionException " + ex.toString());
+        }
 
         return podcast;
     }

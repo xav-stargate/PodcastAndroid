@@ -5,6 +5,7 @@ package com.xavier_laffargue.podcast;
  */
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +59,9 @@ public class ADAPTER_Podcast extends BaseAdapter {
         nomPodcast.setText(pod.getNom());
         idPodcast.setText(Long.toString(pod.getId()));
 
-        imagePodcast.setImageBitmap(UtilityImage.toBitmap(pod.getImage()));
+
+        if(pod.getImage() != null)
+            imagePodcast.setImageBitmap(UtilityImage.toBitmap(pod.getImage()));
 
         return rowView;
     }

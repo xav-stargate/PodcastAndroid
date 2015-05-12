@@ -25,38 +25,27 @@ import java.io.InputStream;
  */
 class DownloadImageTask extends AsyncTask<String, Void, Bitmap>
 {
-    Callback callback;
-    Bitmap bitmap;
-    ProgressDialog pDialog;
+    String urlImg;
 
-
-    public DownloadImageTask(Activity _context, Callback call)
+    public DownloadImageTask(String _urlImg)
     {
+        this.urlImg = _urlImg;
         Log.d(CONF_Application.NAME_LOG, "Construct Download img");
-
-        callback = call;
-        pDialog = new ProgressDialog(_context);
-        pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        pDialog.setMessage("Ajout du podcast...");
-        pDialog.setIndeterminate(true);
-        pDialog.setCancelable(false);
     }
 
     @Override
     protected void onPreExecute()
     {
         super.onPreExecute();
-        pDialog.show();
         Log.d(CONF_Application.NAME_LOG, "Begin Download img");
     }
 
-
-
+    @Override
     protected Bitmap doInBackground(String... urls) {
 
 
-
-        String urlStr = urls[0];
+        Log.d(CONF_Application.NAME_LOG, "Begin doInBackground");
+        String urlStr = urlImg;
         Bitmap img = null;
 
         HttpClient client = new DefaultHttpClient();
@@ -75,15 +64,14 @@ class DownloadImageTask extends AsyncTask<String, Void, Bitmap>
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
+        Log.d(CONF_Application.NAME_LOG, "Finish doInBackground");
         return img;
     }
 
     protected void onPostExecute(Bitmap result)
     {
         Log.d(CONF_Application.NAME_LOG, "Finish Download img");
-        callback.run(result);
-        pDialog.dismiss();
-
     }
 
     public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
