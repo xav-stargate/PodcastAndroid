@@ -10,11 +10,20 @@ import android.util.Log;
  */
 public class SQLiteHelper extends SQLiteOpenHelper {
 
-    public static final String TABLE_PODCAST = "comments";
+    public static final String TABLE_PODCAST = "podcast";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_NOM = "nom";
     public static final String COLUMN_IMAGE = "image";
     public static final String COLUMN_DESCRIPTION = "description";
+
+
+    public static final String TABLE_SHOW = "shows";
+    public static final String COLUMN_ID_SHOW = "id";
+    public static final String COLUMN_ID_PODCAST_SHOW = "id_podcast";
+    public static final String COLUMN_NOM_SHOW = "nom";
+    public static final String COLUMN_MP3_SHOW = "mp3";
+    public static final String COLUMN_DESCRIPTION_SHOW = "description";
+
 
     private static final String DATABASE_NAME = "podcasts99546.db";
     private static final int DATABASE_VERSION = 1;
@@ -25,6 +34,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             + " integer primary key autoincrement, " + COLUMN_NOM
             + " text not null, "+ COLUMN_IMAGE
             + " blob, "+ COLUMN_DESCRIPTION
+            + " text); "
+            + " create table "
+            + TABLE_SHOW + "(" + COLUMN_ID_SHOW
+            + " integer primary key autoincrement, " + COLUMN_ID_PODCAST_SHOW
+            + " integer, " + COLUMN_NOM_SHOW
+            + " text not null, "+ COLUMN_MP3_SHOW
+            + " text, "+ COLUMN_DESCRIPTION_SHOW
             + " text);";
 
     public SQLiteHelper(Context context) {
@@ -42,6 +58,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PODCAST);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SHOW);
+
         onCreate(db);
     }
 }

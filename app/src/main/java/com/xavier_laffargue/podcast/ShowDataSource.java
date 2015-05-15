@@ -7,7 +7,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
 /**
  * Created by Xavier on 25/04/2015.
  */
-public class PodcastDataSource {
+public class ShowDataSource {
 
     // Champs de la base de données
     private SQLiteDatabase database;
@@ -26,7 +25,7 @@ public class PodcastDataSource {
             SQLiteHelper.COLUMN_DESCRIPTION
     };
 
-    public PodcastDataSource(Context context) {
+    public ShowDataSource(Context context) {
         dbHelper = new SQLiteHelper(context);
     }
 

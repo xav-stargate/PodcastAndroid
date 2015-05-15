@@ -15,6 +15,11 @@
             android:id="@+id/imageView3"
             android:layout_gravity="right"
             android:src="@drawable/ic_action_play" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:id="@+id/id_show" />
 
         <TextView
             android:layout_width="wrap_content"

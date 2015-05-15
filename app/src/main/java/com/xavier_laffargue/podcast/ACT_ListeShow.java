@@ -10,11 +10,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 
 public class ACT_ListeShow extends Activity {
@@ -39,6 +43,7 @@ public class ACT_ListeShow extends Activity {
         long idPodcast = intent.getLongExtra("idPodcast", 0);
 
         BO_Podcast one = mesPodcast.getOnePodcast(idPodcast);
+        ArrayList<BO_Show> listeShow = one.getShows();
 
 
         iconePodcast = (ImageView)findViewById(R.id.icone_podcast_show);
@@ -53,31 +58,30 @@ public class ACT_ListeShow extends Activity {
         iconePodcast.setImageBitmap(UtilityImage.toBitmap(one.getImage()));
         txt_description.setText(one.getDescription());
 
+
+
+
         listView = (ListView) findViewById(R.id.list);
 
-        /*
-
-        ArrayAdapterPodcast adapter = new ArrayAdapterPodcast(this, mesPodcast.getAllPodcast());
-
-        Log.d("PODCASTXAVIER", mesPodcast.getAllPodcast().get(1).getNom());
+        ADAPTER_Show adapter = new ADAPTER_Show(this, listeShow);
         listView.setAdapter(adapter);
 
-getOnePodcast
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
-                Podcast o = (Podcast)listView.getItemAtPosition(position);
+                BO_Show o = (BO_Show) listView.getItemAtPosition(position);
 
-                Intent intent = new Intent(ListePodcast.this,Podcast.class);
+                /*Intent intent = new Intent(ACT_ListePodcast.this, ACT_ListeShow.class);
                 //based on item add info to intent
+                Log.d(CONF_Application.NAME_LOG, " id podcast : " + Long.toString(o.getId()));
                 intent.putExtra("idPodcast", o.getId());
                 startActivity(intent);
-
+                */
             }
-        });*/
-
+        });
 
 
     }
