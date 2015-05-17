@@ -8,8 +8,8 @@ package com.xavier_laffargue.podcast;
 public class BO_Show
 {
 
-    private int idShow;
-    private int idPodcast;
+    private long idShow;
+    private long idPodcast;
     private String title;
     private String link;
     private String description;
@@ -93,19 +93,19 @@ public class BO_Show
         this.title = title;
     }
 
-    public int getIdShow() {
+    public long getIdShow() {
         return idShow;
     }
 
-    public void setIdShow(int idShow) {
+    public void setIdShow(long idShow) {
         this.idShow = idShow;
     }
 
-    public int getIdPodcast() {
+    public long getIdPodcast() {
         return idPodcast;
     }
 
-    public void setIdPodcast(int idPodcast) {
+    public void setIdPodcast(long idPodcast) {
         this.idPodcast = idPodcast;
     }
 }

@@ -26,6 +26,7 @@ public class ACT_AddPodcast extends Activity {
     private EditText url;
     private PodcastDataSource mesPodcast;
     private BO_Podcast podcastDownloaded;
+    private ShowDataSource mesShow;
 
 
     @Override
@@ -43,8 +44,7 @@ public class ACT_AddPodcast extends Activity {
         ajouter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                addPodcastXML("http://example.com/file.xml");
+                addPodcastXML(url.getText().toString());
             }
         });
     }
@@ -52,6 +52,8 @@ public class ACT_AddPodcast extends Activity {
 
     public void addPodcastXML(String urlFileXML) {
 
+        mesShow = new ShowDataSource(this);
+        mesShow.open();
 
         DownloadReadXmlTask pod = new DownloadReadXmlTask(this, new Callback(){
             public void run(Object result){
@@ -59,15 +61,10 @@ public class ACT_AddPodcast extends Activity {
 
                 podcastDownloaded = (BO_Podcast)result;
 
-                mesPodcast.ajouterPodcast(podcastDownloaded);
+                mesPodcast.ajouterPodcast(podcastDownloaded, mesShow);
 
             }});
-        pod.execute(url.getText().toString());
-
-
-
-
-
+        pod.execute(urlFileXML);
 
     }
 

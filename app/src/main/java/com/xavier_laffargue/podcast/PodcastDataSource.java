@@ -38,7 +38,10 @@ public class PodcastDataSource {
         dbHelper.close();
     }
 
-    public BO_Podcast ajouterPodcast(BO_Podcast nouveauPodcast) {
+    public BO_Podcast ajouterPodcast(BO_Podcast nouveauPodcast, ShowDataSource mesShow) {
+
+
+
         ContentValues values = new ContentValues();
 
         values.put(SQLiteHelper.COLUMN_NOM, nouveauPodcast.getNom());
@@ -50,8 +53,15 @@ public class PodcastDataSource {
 
         long insertId = database.insert(SQLiteHelper.TABLE_PODCAST, null, values);
 
+        //On modifie l'id podcast de tous les show
+        for(final BO_Show _show: nouveauPodcast.getShows())
+        {
+            _show.setIdPodcast(insertId);
+        }
 
+        mesShow.ajouterShows(nouveauPodcast.getShows());
 
+        mesShow.close();
 
 
         Cursor cursor = database.query(SQLiteHelper.TABLE_PODCAST,

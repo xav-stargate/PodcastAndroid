@@ -48,7 +48,7 @@ public class ADAPTER_Show extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 
-        View rowView = inflater.inflate(R.layout.list_podcast, parent, false);
+        View rowView = inflater.inflate(R.layout.list_show, parent, false);
 
         TextView nomPodcast = (TextView) rowView.findViewById(R.id.name_show);
         TextView idPodcast = (TextView) rowView.findViewById(R.id.id_show);

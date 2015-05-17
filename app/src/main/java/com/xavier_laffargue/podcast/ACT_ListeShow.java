@@ -24,6 +24,7 @@ import java.util.ArrayList;
 public class ACT_ListeShow extends Activity {
 
     private PodcastDataSource mesPodcast;
+    private ShowDataSource mesShows;
     private ImageView iconePodcast;
     private TextView txt_description;
     private ListView listView;
@@ -39,6 +40,10 @@ public class ACT_ListeShow extends Activity {
         mesPodcast = new PodcastDataSource(this);
         mesPodcast.open();
 
+        mesShows = new ShowDataSource(this);
+        mesShows.open();
+
+
 
         long idPodcast = intent.getLongExtra("idPodcast", 0);
 
@@ -50,9 +55,6 @@ public class ACT_ListeShow extends Activity {
         txt_description = (TextView)findViewById(R.id.txt_description_show);
 
 
-
-
-
         Log.d(CONF_Application.NAME_LOG, Long.toString(one.getId()));
         setTitle(one.getNom());
         iconePodcast.setImageBitmap(UtilityImage.toBitmap(one.getImage()));
@@ -60,10 +62,9 @@ public class ACT_ListeShow extends Activity {
 
 
 
+        listView = (ListView) findViewById(R.id.listView2);
 
-        listView = (ListView) findViewById(R.id.list);
-
-        ADAPTER_Show adapter = new ADAPTER_Show(this, listeShow);
+        ADAPTER_Show adapter = new ADAPTER_Show(this, mesShows.getAllShow(one));
         listView.setAdapter(adapter);
 
 

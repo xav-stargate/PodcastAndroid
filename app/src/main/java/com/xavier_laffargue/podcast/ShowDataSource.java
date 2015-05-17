@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,9 +21,10 @@ public class ShowDataSource {
     private SQLiteDatabase database;
     private SQLiteHelper dbHelper;
     private String[] allColumns = { SQLiteHelper.COLUMN_ID,
-            SQLiteHelper.COLUMN_NOM,
-            SQLiteHelper.COLUMN_IMAGE,
-            SQLiteHelper.COLUMN_DESCRIPTION
+            SQLiteHelper.COLUMN_ID_PODCAST_SHOW,
+            SQLiteHelper.COLUMN_MP3_SHOW,
+            SQLiteHelper.COLUMN_NOM_SHOW,
+            SQLiteHelper.COLUMN_DESCRIPTION_SHOW
     };
 
     public ShowDataSource(Context context) {
@@ -37,49 +39,39 @@ public class ShowDataSource {
         dbHelper.close();
     }
 
-    public BO_Podcast ajouterPodcast(BO_Podcast nouveauPodcast) {
-        ContentValues values = new ContentValues();
-
-        values.put(SQLiteHelper.COLUMN_NOM, nouveauPodcast.getNom());
-        values.put(SQLiteHelper.COLUMN_IMAGE, nouveauPodcast.getImage());
-        values.put(SQLiteHelper.COLUMN_DESCRIPTION, nouveauPodcast.getDescription());
-
-        Log.d(CONF_Application.NAME_LOG, " ADD PODCAST " + nouveauPodcast.getNom());
+    public void ajouterShows(ArrayList<BO_Show> listeShow) {
 
 
-        long insertId = database.insert(SQLiteHelper.TABLE_PODCAST, null, values);
+        for(final BO_Show unShow: listeShow)
+        {
+            ContentValues values = new ContentValues();
+            values.put(SQLiteHelper.COLUMN_ID_PODCAST_SHOW, unShow.getIdPodcast());
+            values.put(SQLiteHelper.COLUMN_MP3_SHOW, unShow.getMp3());
+            values.put(SQLiteHelper.COLUMN_NOM_SHOW, unShow.getTitle());
+            values.put(SQLiteHelper.COLUMN_DESCRIPTION, unShow.getDescription());
 
 
+            Log.d(CONF_Application.NAME_LOG, " ADD SHOW " + unShow.getIdPodcast() + " title : " + unShow.getTitle());
 
 
-
-        Cursor cursor = database.query(SQLiteHelper.TABLE_PODCAST,
-                allColumns, SQLiteHelper.COLUMN_ID + " = " + insertId, null,
-                null, null, null);
-        cursor.moveToFirst();
-        BO_Podcast newComment = cursorToPodcast(cursor);
-
-
-        cursor.close();
-        return newComment;
+            database.insert(SQLiteHelper.TABLE_SHOW, null, values);
+        }
     }
 
-    public void supprimerPodcast(BO_Podcast monPodcast) {
-        long id = monPodcast.getId();
+    public void supprimerShow(BO_Show unShow) {
+        long id = unShow.getIdShow();
 
-        database.delete(SQLiteHelper.TABLE_PODCAST, SQLiteHelper.COLUMN_ID
+        database.delete(SQLiteHelper.TABLE_SHOW, SQLiteHelper.COLUMN_ID_SHOW
                 + " = " + id, null);
     }
 
-    public BO_Podcast getOnePodcast(long id)
+    public BO_Show getOneShow(long id)
     {
-
-
-        BO_Podcast newComment;
-        String selectQuery = "SELECT * FROM "+SQLiteHelper.TABLE_PODCAST+" WHERE id=?";
+        BO_Show newComment;
+        String selectQuery = "SELECT * FROM "+SQLiteHelper.TABLE_SHOW+" WHERE id=?";
         Cursor c = database.rawQuery(selectQuery, new String[] { Long.toString(id) });
         if (c.moveToFirst()) {
-            newComment = cursorToPodcast(c);
+            newComment = cursorToShow(c);
         } else {
             newComment = null;
         }
@@ -89,16 +81,18 @@ public class ShowDataSource {
         return newComment;
     }
 
-    public List<BO_Podcast> getAllPodcast() {
-        List<BO_Podcast> comments = new ArrayList<BO_Podcast>();
+    public ArrayList<BO_Show> getAllShow(BO_Podcast _podcast) {
+        ArrayList<BO_Show> comments = new ArrayList<>();
 
-        Cursor cursor = database.query(SQLiteHelper.TABLE_PODCAST,
-                allColumns, null, null, null, null, null);
+        Cursor cursor =  database.query(SQLiteHelper.TABLE_SHOW,
+                allColumns, SQLiteHelper.COLUMN_ID_PODCAST_SHOW + " = " + _podcast.getId(), null,
+                null, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            BO_Podcast comment = cursorToPodcast(cursor);
+            BO_Show comment = cursorToShow(cursor);
             comments.add(comment);
+            Log.d(CONF_Application.NAME_LOG, "OK : " + comment.getTitle());
             cursor.moveToNext();
         }
 
@@ -106,21 +100,22 @@ public class ShowDataSource {
         return comments;
     }
 
-    public ArrayList<HashMap<String, String>> getAllInHashMap() {
+    public ArrayList<HashMap<String, String>> getAllShowInHashMap(BO_Podcast _podcast) {
 
         ArrayList<HashMap<String, String>> liste = new ArrayList<>();
 
-        Cursor cursor = database.query(SQLiteHelper.TABLE_PODCAST, allColumns, null, null, null, null, null);
+        Cursor cursor = database.query(SQLiteHelper.TABLE_SHOW,
+                allColumns, SQLiteHelper.COLUMN_ID_PODCAST_SHOW + " = " + _podcast.getId(), null,
+                null, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             HashMap<String, String> map = new HashMap<>();
 
-            // adding each child node to HashMap key => value
-            map.put("id", Long.toString(cursorToPodcast(cursor).getId()));
-            map.put("nom", cursorToPodcast(cursor).getNom());
-            map.put("image", cursorToPodcast(cursor).getImage().toString());
-            map.put("description", cursorToPodcast(cursor).getDescription());
+
+            map.put("id", Long.toString(cursorToShow(cursor).getIdShow()));
+            map.put("nom", cursorToShow(cursor).getTitle());
+            map.put("description", cursorToShow(cursor).getDescription());
 
 
 
@@ -132,12 +127,15 @@ public class ShowDataSource {
 
         return liste;
     }
-    private BO_Podcast cursorToPodcast(Cursor cursor) {
-        BO_Podcast comment = new BO_Podcast();
-        comment.setId(cursor.getLong(0));
-        comment.setNom(cursor.getString(1));
-        comment.setImage(cursor.getBlob(2));
-        comment.setDescription(cursor.getString(3));
-        return comment;
+    private BO_Show cursorToShow(Cursor cursor) {
+        BO_Show show = new BO_Show();
+        show.setIdShow(cursor.getLong(0));
+        show.setIdPodcast(cursor.getLong(1));
+        show.setMp3(cursor.getString(2));
+        show.setTitle(cursor.getString(3));
+        show.setDescription(cursor.getString(4));
+
+        return show;
     }
 }
+
