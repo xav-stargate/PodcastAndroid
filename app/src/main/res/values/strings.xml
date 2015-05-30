@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Podcast</string>
+    <string name="app_name">Podc@st</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Paramètres</string>
@@ -8,4 +8,5 @@
     <string name="title_activity_activity_liste_show">Emission</string>
     <string name="title_activity_activity_setting_podcast">Paramètres</string>
     <string name="title_activity_activity_liste_podcast">Mes Podcasts</string>
+    <string name="title_activity_activity_player_show">Player</string>
 </resources>

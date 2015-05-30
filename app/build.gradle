@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "com.xavier_laffargue.podcast"
         minSdkVersion 21
-        targetSdkVersion 21
+        targetSdkVersion 20
         versionCode 1
         versionName "1.0"
     }

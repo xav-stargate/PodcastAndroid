@@ -75,12 +75,12 @@ public class ACT_ListeShow extends Activity {
 
                 BO_Show o = (BO_Show) listView.getItemAtPosition(position);
 
-                /*Intent intent = new Intent(ACT_ListePodcast.this, ACT_ListeShow.class);
+                Intent intent = new Intent(ACT_ListeShow.this, ACT_Player.class);
                 //based on item add info to intent
-                Log.d(CONF_Application.NAME_LOG, " id podcast : " + Long.toString(o.getId()));
-                intent.putExtra("idPodcast", o.getId());
+                Log.d(CONF_Application.NAME_LOG, " id show : " + o.getMp3());
+                intent.putExtra("idShow", o.getIdShow());
                 startActivity(intent);
-                */
+
             }
         });
 
