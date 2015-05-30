@@ -56,7 +56,7 @@ class DownloadImageTask extends AsyncTask<String, Void, Bitmap>
             HttpEntity entity = response.getEntity();
             BufferedHttpEntity bufferedEntity = new BufferedHttpEntity(entity);
             InputStream inputStream = bufferedEntity.getContent();
-            img = getResizedBitmap(BitmapFactory.decodeStream(inputStream), 400, 400);
+            img = getResizedBitmap(BitmapFactory.decodeStream(inputStream), 600, 600);
         } catch (ClientProtocolException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
