@@ -1,5 +1,7 @@
 package com.xavier_laffargue.podcast;
 
+import java.util.ArrayList;
+
 /**
  * Created by Xavier on 28/04/2015.
  * Business Object : Show
@@ -19,6 +21,17 @@ public class BO_Show
     private String datePublication;
     private String subtitle;
     private String duration;
+
+    public boolean existe(ArrayList<BO_Show> shows)
+    {
+        for (final BO_Show show : shows)
+        {
+            if(show.getMp3() == this.getMp3())
+                return true;
+        }
+
+        return false;
+    }
 
     public String getDescription() {
         return description;

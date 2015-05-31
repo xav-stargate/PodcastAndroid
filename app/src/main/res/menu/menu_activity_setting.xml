@@ -5,8 +5,8 @@
     tools:context="com.xavier_laffargue.podcast.ACT_AddPodcast">
 
     <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_settings"
+        android:id="@+id/action_add"
+        android:title="@string/action_add"
         android:orderInCategory="100"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 </menu>

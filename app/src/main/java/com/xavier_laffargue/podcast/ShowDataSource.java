@@ -58,6 +58,23 @@ public class ShowDataSource {
         }
     }
 
+
+    public void refreshShows(BO_Podcast nouveauPodcast) {
+
+        Log.d(CONF_Application.NAME_LOG, " REFRESH PODCAST " + nouveauPodcast.getNom());
+
+        ArrayList<BO_Show> showRajoute = new ArrayList<>();
+
+        for(final BO_Show nouveauShow: nouveauPodcast.getShows()) {
+            if(!nouveauShow.existe(this.getAllShow(nouveauPodcast)))
+            {
+                showRajoute.add(nouveauShow);
+            }
+        }
+
+        ajouterShows(showRajoute);
+    }
+
     public void supprimerShow(BO_Show unShow) {
         long id = unShow.getIdShow();
 

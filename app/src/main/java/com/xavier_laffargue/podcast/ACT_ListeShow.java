@@ -91,30 +91,30 @@ public class ACT_ListeShow extends Activity {
         buttonRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-            /*
-                DownloadReadXmlTask pod = new DownloadReadXmlTask(this, new Callback(){
-                    public void run(Object result){
-                        //Enregistrement dans la base
-
-                        podcastDownloaded = (BO_Podcast)result;
-
-                        mesPodcast.ajouterPodcast(podcastDownloaded, mesShows);
-
-                    }});
-                pod.execute(monPodcast.getUrlXML());*/
-                Toast.makeText(getApplicationContext(), "XML : " + monPodcast.getUrlXML(), Toast.LENGTH_SHORT).show();
-
+                refreshPodcast();
             }
         });
 
+    }
+
+    public void refreshPodcast()
+    {
+        DownloadReadXmlTask pod = new DownloadReadXmlTask(this, new Callback(){
+            public void run(Object result){
+                //Enregistrement dans la base
+                BO_Podcast podcastDownloaded = (BO_Podcast)result;
+                mesShows.refreshShows(podcastDownloaded);
+
+            }});
+        pod.execute(monPodcast.getUrlXML());
+        Toast.makeText(getApplicationContext(), "XML : " + monPodcast.getUrlXML(), Toast.LENGTH_SHORT).show();
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_liste_podcast, menu);
+        getMenuInflater().inflate(R.menu.menu_default, menu);
         return true;
     }
 
