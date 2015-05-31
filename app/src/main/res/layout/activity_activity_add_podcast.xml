@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="URL du Podcast"
+            android:text="URL du Podcast (format xml)"
             android:id="@+id/url" />
 
     <EditText

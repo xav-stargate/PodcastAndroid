@@ -50,7 +50,7 @@ public class ACT_AddPodcast extends Activity {
     }
 
 
-    public void addPodcastXML(String urlFileXML) {
+    public void addPodcastXML(final String urlFileXML) {
 
         mesShow = new ShowDataSource(this);
         mesShow.open();
@@ -60,6 +60,7 @@ public class ACT_AddPodcast extends Activity {
                 //Enregistrement dans la base
 
                 podcastDownloaded = (BO_Podcast)result;
+
 
                 mesPodcast.ajouterPodcast(podcastDownloaded, mesShow);
 

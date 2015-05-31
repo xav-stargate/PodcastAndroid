@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -28,7 +29,7 @@ public class ACT_Player extends Activity {
 
     private ImageButton buttonStop;
     private ImageButton buttonPlay;
-
+    private TextView description;
     private ImageView imagePodcast;
     private Uri uri;
 
@@ -40,6 +41,7 @@ public class ACT_Player extends Activity {
         buttonStop = (ImageButton) findViewById(R.id.button_pause);
         buttonPlay = (ImageButton) findViewById(R.id.button_play);
         imagePodcast = (ImageView) findViewById(R.id.podcast_image_grand);
+        description = (TextView) findViewById(R.id.text_description_player);
 
         ShowDataSource mesShows = new ShowDataSource(this);
         mesShows.open();
@@ -63,6 +65,7 @@ public class ACT_Player extends Activity {
 
         urlShow = show.getTitle();
         imagePodcast.setImageBitmap(UtilityImage.toBitmap(pod.getImage()));
+        description.setText(show.getDescription());
         uri = Uri.parse(urlShow);
 
         Intent intent = new Intent(getApplicationContext(), MediaPlayerService.class);
@@ -70,10 +73,8 @@ public class ACT_Player extends Activity {
         intent.putExtra("mp3Show", urlShow);
         intent.setAction(CONF_Application.ACTION_PLAY);
         startService(intent);
-/*
 
-        if(!MyPlayer.get().isPlaying())
-            playerMP3();
+
 
 
 
@@ -82,49 +83,19 @@ public class ACT_Player extends Activity {
 
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                if (MyPlayer.get() != null && MyPlayer.get().isPlaying()) {
-                    MyPlayer.get().start();
-                }
+                Intent intent = new Intent(getApplicationContext(), MediaPlayerService.class);
+                intent.setAction(CONF_Application.ACTION_PLAY);
+                startService(intent);
             }
         });
         buttonStop.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                if (MyPlayer.get() != null && MyPlayer.get().isPlaying()) {
-                    MyPlayer.get().pause();
-                }
+                Intent intent = new Intent(getApplicationContext(), MediaPlayerService.class);
+                intent.setAction(CONF_Application.ACTION_PAUSE);
+                startService(intent);
             }
         });
     }
-
-    public void playerMP3()
-    {
-
-        MyPlayer.get().setAudioStreamType(AudioManager.STREAM_MUSIC);
-
-
-        try {
-            MyPlayer.get().setDataSource(getApplicationContext(), uri);
-        } catch (IllegalArgumentException e) {
-            Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
-        } catch (SecurityException e) {
-            Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
-        } catch (IllegalStateException e) {
-            Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            MyPlayer.get().prepare();
-        } catch (IllegalStateException e) {
-            Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
-        } catch (IOException e) {
-            Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
-        }
-
-        MyPlayer.get().start();*/
-    }
-
 }

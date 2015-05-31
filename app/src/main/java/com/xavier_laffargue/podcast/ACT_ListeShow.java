@@ -12,11 +12,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -28,6 +30,8 @@ public class ACT_ListeShow extends Activity {
     private ImageView iconePodcast;
     private TextView txt_description;
     private ListView listView;
+    private ImageButton buttonRefresh;
+    private BO_Podcast monPodcast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,24 +51,24 @@ public class ACT_ListeShow extends Activity {
 
         long idPodcast = intent.getLongExtra("idPodcast", 0);
 
-        BO_Podcast one = mesPodcast.getOnePodcast(idPodcast);
-        ArrayList<BO_Show> listeShow = one.getShows();
+        monPodcast = mesPodcast.getOnePodcast(idPodcast);
+        ArrayList<BO_Show> listeShow = monPodcast.getShows();
 
 
         iconePodcast = (ImageView)findViewById(R.id.icone_podcast_show);
         txt_description = (TextView)findViewById(R.id.txt_description_show);
+        buttonRefresh = (ImageButton) findViewById(R.id.button_refresh_show);
 
-
-        Log.d(CONF_Application.NAME_LOG, Long.toString(one.getId()));
-        setTitle(one.getNom());
-        iconePodcast.setImageBitmap(UtilityImage.toBitmap(one.getImage()));
-        txt_description.setText(one.getDescription());
+        Log.d(CONF_Application.NAME_LOG, Long.toString(monPodcast.getId()));
+        setTitle(monPodcast.getNom());
+        iconePodcast.setImageBitmap(UtilityImage.toBitmap(monPodcast.getImage()));
+        txt_description.setText(monPodcast.getDescription());
 
 
 
         listView = (ListView) findViewById(R.id.listView2);
 
-        ADAPTER_Show adapter = new ADAPTER_Show(this, mesShows.getAllShow(one));
+        ADAPTER_Show adapter = new ADAPTER_Show(this, mesShows.getAllShow(monPodcast));
         listView.setAdapter(adapter);
 
 
@@ -84,6 +88,25 @@ public class ACT_ListeShow extends Activity {
             }
         });
 
+        buttonRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            /*
+                DownloadReadXmlTask pod = new DownloadReadXmlTask(this, new Callback(){
+                    public void run(Object result){
+                        //Enregistrement dans la base
+
+                        podcastDownloaded = (BO_Podcast)result;
+
+                        mesPodcast.ajouterPodcast(podcastDownloaded, mesShows);
+
+                    }});
+                pod.execute(monPodcast.getUrlXML());*/
+                Toast.makeText(getApplicationContext(), "XML : " + monPodcast.getUrlXML(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
     }
 

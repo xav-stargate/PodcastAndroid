@@ -17,23 +17,18 @@ import android.widget.ImageView;
 public class ACT_ListePodcast_RecycleView extends Activity {
 
     private PodcastDataSource mesPodcast;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycle_view_podcast);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-       // recyclerView.addItemDecoration(new MarginDecoration(this));
+
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
+        loadPodcast();
 
-        mesPodcast = new PodcastDataSource(this);
-        mesPodcast.open();
-
-
-        ADAPTER_Podcast adapter = new ADAPTER_Podcast(this, mesPodcast.getAllPodcast());
-
-        recyclerView.setAdapter(adapter);
 
         ImageButton imgAddPodcast = (ImageButton)findViewById(R.id.add_button_listPodcast);
         imgAddPodcast.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +38,25 @@ public class ACT_ListePodcast_RecycleView extends Activity {
             }
         });
 
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        loadPodcast();
+    }
+
+    public void loadPodcast()
+    {
+        mesPodcast = new PodcastDataSource(this);
+        mesPodcast.open();
+
+
+        ADAPTER_Podcast adapter = new ADAPTER_Podcast(this, mesPodcast.getAllPodcast());
+
+        recyclerView.setAdapter(adapter);
     }
 
     public void openAdd() {

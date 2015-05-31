@@ -15,7 +15,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_NOM = "nom";
     public static final String COLUMN_IMAGE = "image";
     public static final String COLUMN_DESCRIPTION = "description";
-
+    public static final String COLUMN_URLXML = "urlXML";
 
     public static final String TABLE_SHOW = "show";
     public static final String COLUMN_ID_SHOW = "id";
@@ -42,6 +42,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_NOM
             + " TEXT NOT NULL, "+ COLUMN_IMAGE
             + " BLOB, "+ COLUMN_DESCRIPTION
+            + " TEXT, "+ COLUMN_URLXML
             + " TEXT); ";
 
     public SQLiteHelper(Context context) {

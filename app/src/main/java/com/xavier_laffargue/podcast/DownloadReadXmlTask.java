@@ -51,6 +51,7 @@ class DownloadReadXmlTask extends AsyncTask<String, Void, BO_Podcast>
         {
             XmlParser monPodcast = new XmlParser(new URL(urls[0]));
             podcast = monPodcast.getPodcast();
+            podcast.setUrlXML(urls[0]);
         }
         catch (MalformedURLException ex)
         {
@@ -74,6 +75,8 @@ class DownloadReadXmlTask extends AsyncTask<String, Void, BO_Podcast>
         {
             Log.d(CONF_Application.NAME_LOG, "ExecutionException " + ex.toString());
         }
+
+
 
         return podcast;
     }

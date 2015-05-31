@@ -23,7 +23,8 @@ public class PodcastDataSource {
     private String[] allColumns = { SQLiteHelper.COLUMN_ID,
             SQLiteHelper.COLUMN_NOM,
             SQLiteHelper.COLUMN_IMAGE,
-            SQLiteHelper.COLUMN_DESCRIPTION
+            SQLiteHelper.COLUMN_DESCRIPTION,
+            SQLiteHelper.COLUMN_URLXML
     };
 
     public PodcastDataSource(Context context) {
@@ -39,6 +40,45 @@ public class PodcastDataSource {
     }
 
     public BO_Podcast ajouterPodcast(BO_Podcast nouveauPodcast, ShowDataSource mesShow) {
+
+
+
+        ContentValues values = new ContentValues();
+
+        values.put(SQLiteHelper.COLUMN_NOM, nouveauPodcast.getNom());
+        values.put(SQLiteHelper.COLUMN_IMAGE, nouveauPodcast.getImage());
+        values.put(SQLiteHelper.COLUMN_DESCRIPTION, nouveauPodcast.getDescription());
+        values.put(SQLiteHelper.COLUMN_URLXML, nouveauPodcast.getUrlXML());
+
+        Log.d(CONF_Application.NAME_LOG, " ADD PODCAST " + nouveauPodcast.getNom());
+
+
+        long insertId = database.insert(SQLiteHelper.TABLE_PODCAST, null, values);
+
+        //On modifie l'id podcast de tous les show
+        for(final BO_Show _show: nouveauPodcast.getShows())
+        {
+            _show.setIdPodcast(insertId);
+        }
+
+        mesShow.ajouterShows(nouveauPodcast.getShows());
+
+        mesShow.close();
+
+
+        Cursor cursor = database.query(SQLiteHelper.TABLE_PODCAST,
+                allColumns, SQLiteHelper.COLUMN_ID + " = " + insertId, null,
+                null, null, null);
+        cursor.moveToFirst();
+        BO_Podcast newComment = cursorToPodcast(cursor);
+
+
+        cursor.close();
+        return newComment;
+    }
+
+/*
+    public void addNewShow(BO_Podcast nouveauPodcast, ShowDataSource mesShow) {
 
 
 
@@ -73,7 +113,9 @@ public class PodcastDataSource {
 
         cursor.close();
         return newComment;
-    }
+    }*/
+
+
 
     public void supprimerPodcast(BO_Podcast monPodcast) {
         long id = monPodcast.getId();
@@ -132,7 +174,7 @@ public class PodcastDataSource {
             map.put("nom", cursorToPodcast(cursor).getNom());
             map.put("image", cursorToPodcast(cursor).getImage().toString());
             map.put("description", cursorToPodcast(cursor).getDescription());
-
+            map.put("urlXML", cursorToPodcast(cursor).getUrlXML());
 
 
             liste.add(map);
@@ -149,6 +191,7 @@ public class PodcastDataSource {
         comment.setNom(cursor.getString(1));
         comment.setImage(cursor.getBlob(2));
         comment.setDescription(cursor.getString(3));
+        comment.setUrlXML(cursor.getString(4));
         return comment;
     }
 }

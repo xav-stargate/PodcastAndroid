@@ -13,6 +13,11 @@ public class BO_Podcast {
     private long id;
     private String nom;
     private String urlImage;
+
+
+
+
+    private String urlXML;
     private byte[] image;
     private String description;
     private ArrayList<BO_Show> shows;
@@ -77,5 +82,11 @@ public class BO_Podcast {
     }
 
 
+      public String getUrlXML() {
+          return urlXML;
+      }
 
+      public void setUrlXML(String urlXML) {
+         this.urlXML = urlXML;
+      }
 }
