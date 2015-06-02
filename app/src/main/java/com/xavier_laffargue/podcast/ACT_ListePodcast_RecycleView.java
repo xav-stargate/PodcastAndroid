@@ -3,11 +3,17 @@ package com.xavier_laffargue.podcast;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toolbar;
+
+import com.melnykov.fab.FloatingActionButton;
 
 
 /**
@@ -19,10 +25,14 @@ public class ACT_ListePodcast_RecycleView extends Activity {
     private PodcastDataSource mesPodcast;
     private RecyclerView recyclerView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycle_view_podcast);
+
+
+
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -30,7 +40,7 @@ public class ACT_ListePodcast_RecycleView extends Activity {
         loadPodcast();
 
 
-        ImageButton imgAddPodcast = (ImageButton)findViewById(R.id.add_button_listPodcast);
+        FloatingActionButton imgAddPodcast = (FloatingActionButton)findViewById(R.id.button_add_podcast);
         imgAddPodcast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,8 +48,8 @@ public class ACT_ListePodcast_RecycleView extends Activity {
             }
         });
 
-    }
 
+    }
 
     @Override
     protected void onResume()

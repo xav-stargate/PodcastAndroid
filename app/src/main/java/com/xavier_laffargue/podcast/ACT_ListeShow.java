@@ -7,6 +7,7 @@ package com.xavier_laffargue.podcast;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import com.melnykov.fab.FloatingActionButton;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,9 +29,10 @@ public class ACT_ListeShow extends Activity {
     private PodcastDataSource mesPodcast;
     private ShowDataSource mesShows;
     private ImageView iconePodcast;
+    private ImageButton buttonSupprimer;
     private TextView txt_description;
     private ListView listView;
-    private ImageButton buttonRefresh;
+    private FloatingActionButton buttonRefresh;
     private BO_Podcast monPodcast;
 
     @Override
@@ -43,6 +45,7 @@ public class ACT_ListeShow extends Activity {
         //DataBase
         mesPodcast = new PodcastDataSource(this);
         mesPodcast.open();
+
 
         mesShows = new ShowDataSource(this);
         mesShows.open();
@@ -57,7 +60,8 @@ public class ACT_ListeShow extends Activity {
 
         iconePodcast = (ImageView)findViewById(R.id.icone_podcast_show);
         txt_description = (TextView)findViewById(R.id.txt_description_show);
-        buttonRefresh = (ImageButton) findViewById(R.id.button_refresh_show);
+        buttonRefresh = (FloatingActionButton) findViewById(R.id.button_refresh);
+        buttonSupprimer = (ImageButton)findViewById(R.id.button_delete_show);
 
         Log.d(CONF_Application.NAME_LOG, Long.toString(monPodcast.getId()));
         setTitle(monPodcast.getNom());
@@ -88,9 +92,21 @@ public class ACT_ListeShow extends Activity {
             }
         });
 
-        buttonRefresh.setOnClickListener(new View.OnClickListener() {
+        buttonSupprimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mesPodcast.supprimerPodcast(monPodcast);
+
+                Intent intent = new Intent(ACT_ListeShow.this, ACT_ListePodcast_RecycleView.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+          buttonRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 refreshPodcast();
             }
         });
@@ -103,6 +119,8 @@ public class ACT_ListeShow extends Activity {
             public void run(Object result){
                 //Enregistrement dans la base
                 BO_Podcast podcastDownloaded = (BO_Podcast)result;
+                podcastDownloaded.setId(monPodcast.getId());
+                Log.d(CONF_Application.NAME_LOG, " REFRESH PODCAST 1 " + podcastDownloaded.getNom());
                 mesShows.refreshShows(podcastDownloaded);
 
             }});

@@ -61,13 +61,17 @@ public class ShowDataSource {
 
     public void refreshShows(BO_Podcast nouveauPodcast) {
 
-        Log.d(CONF_Application.NAME_LOG, " REFRESH PODCAST " + nouveauPodcast.getNom());
+        Log.d(CONF_Application.NAME_LOG, " REFRESH PODCAST ID " + nouveauPodcast.getId());
 
         ArrayList<BO_Show> showRajoute = new ArrayList<>();
+
+
 
         for(final BO_Show nouveauShow: nouveauPodcast.getShows()) {
             if(!nouveauShow.existe(this.getAllShow(nouveauPodcast)))
             {
+                Log.d(CONF_Application.NAME_LOG, " REFRESH PODCAST EXISTE PAS " + nouveauShow.getTitle());
+                nouveauShow.setIdPodcast(nouveauPodcast.getId());
                 showRajoute.add(nouveauShow);
             }
         }
@@ -103,7 +107,8 @@ public class ShowDataSource {
 
         Cursor cursor =  database.query(SQLiteHelper.TABLE_SHOW,
                 allColumns, SQLiteHelper.COLUMN_ID_PODCAST_SHOW + " = " + _podcast.getId(), null,
-                null, null, null);
+                null, null, SQLiteHelper.COLUMN_ID + " ASC");
+
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {

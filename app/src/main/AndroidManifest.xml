@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.xavier_laffargue.podcast" >
 
-    <!-- android:icon="@mipmap/ic_launcher"-->
+
     <application
         android:largeHeap="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
         <activity
             android:name=".ACT_ListePodcast_RecycleView"
-            android:label="@string/app_name" >
+            android:label="@string/title_activity_activity_liste_podcast" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -34,7 +35,10 @@
             android:name=".ACT_Player"
             android:label="@string/title_activity_activity_player_show" >
         </activity>
-
+        <activity
+            android:name=".ACT_Test"
+            android:label="@string/title_activity_activity_player_show" >
+        </activity>
         <service android:name=".MediaPlayerService"/>
 
     </application>

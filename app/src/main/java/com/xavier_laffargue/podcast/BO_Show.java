@@ -26,7 +26,7 @@ public class BO_Show
     {
         for (final BO_Show show : shows)
         {
-            if(show.getMp3() == this.getMp3())
+            if(show.getMp3().equals(this.getMp3()))
                 return true;
         }
 

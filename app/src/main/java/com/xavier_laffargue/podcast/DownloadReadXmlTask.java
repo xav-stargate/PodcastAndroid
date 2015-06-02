@@ -27,7 +27,7 @@ class DownloadReadXmlTask extends AsyncTask<String, Void, BO_Podcast>
         callback = call;
         pDialog = new ProgressDialog(_context);
         pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        pDialog.setMessage("Ajout du podcast...");
+        pDialog.setMessage("Veulliez patienter ...");
         pDialog.setIndeterminate(true);
         pDialog.setCancelable(false);
     }

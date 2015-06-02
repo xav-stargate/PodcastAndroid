@@ -83,6 +83,8 @@ public class PodcastDataSource {
     public void supprimerPodcast(BO_Podcast monPodcast) {
         long id = monPodcast.getId();
 
+        database.delete(SQLiteHelper.TABLE_SHOW, SQLiteHelper.COLUMN_ID_PODCAST_SHOW
+                + " = " + id, null);
         database.delete(SQLiteHelper.TABLE_PODCAST, SQLiteHelper.COLUMN_ID
                 + " = " + id, null);
     }

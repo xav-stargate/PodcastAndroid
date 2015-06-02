@@ -59,6 +59,16 @@ public class ADAPTER_Podcast extends RecyclerView.Adapter<PodcastViewHolder> {
                 context.startActivity(intent);
             }
         });
+
+        /*holder.cardView.setOnLongClickListener(new View.OnLongClickListener()
+        {
+            @Override
+            public boolean onLongClick(View v)
+            {
+                Toast.makeText(v.getContext(), "OK long", Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });*/
     }
 
     @Override
