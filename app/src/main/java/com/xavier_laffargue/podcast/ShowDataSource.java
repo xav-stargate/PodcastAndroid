@@ -24,7 +24,8 @@ public class ShowDataSource {
             SQLiteHelper.COLUMN_ID_PODCAST_SHOW,
             SQLiteHelper.COLUMN_MP3_SHOW,
             SQLiteHelper.COLUMN_NOM_SHOW,
-            SQLiteHelper.COLUMN_DESCRIPTION_SHOW
+            SQLiteHelper.COLUMN_DESCRIPTION_SHOW,
+            SQLiteHelper.COLUMN_DATE_PUBLICATION_SHOW
     };
 
     public ShowDataSource(Context context) {
@@ -49,6 +50,7 @@ public class ShowDataSource {
             values.put(SQLiteHelper.COLUMN_MP3_SHOW, unShow.getMp3());
             values.put(SQLiteHelper.COLUMN_NOM_SHOW, unShow.getTitle());
             values.put(SQLiteHelper.COLUMN_DESCRIPTION, unShow.getDescription());
+            values.put(SQLiteHelper.COLUMN_DATE_PUBLICATION_SHOW, unShow.getDatePublication());
 
 
             Log.d(CONF_Application.NAME_LOG, " ADD SHOW " + unShow.getIdPodcast() + " title : " + unShow.getTitle());
@@ -107,7 +109,7 @@ public class ShowDataSource {
 
         Cursor cursor =  database.query(SQLiteHelper.TABLE_SHOW,
                 allColumns, SQLiteHelper.COLUMN_ID_PODCAST_SHOW + " = " + _podcast.getId(), null,
-                null, null, SQLiteHelper.COLUMN_ID + " ASC");
+                null, null, SQLiteHelper.COLUMN_DATE_PUBLICATION_SHOW + " DESC");
 
 
         cursor.moveToFirst();
@@ -156,7 +158,7 @@ public class ShowDataSource {
         show.setMp3(cursor.getString(2));
         show.setTitle(cursor.getString(3));
         show.setDescription(cursor.getString(4));
-
+        show.setDatePublication(cursor.getLong(5));
         return show;
     }
 }

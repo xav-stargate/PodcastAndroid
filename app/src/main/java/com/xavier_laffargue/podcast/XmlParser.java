@@ -11,7 +11,13 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -104,6 +110,22 @@ public class XmlParser {
                         //final Element description_show = (Element) show.getElementsByTagName("description").item(0);
                         final Element enclosure = (Element) show.getElementsByTagName("enclosure").item(0);
                         final Element subtitle = (Element) show.getElementsByTagName("itunes:subtitle").item(0);
+                        final Element pubDate = (Element) show.getElementsByTagName("pubDate").item(0);
+
+                        DateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
+
+                        try {
+                            Date date = formatter.parse(pubDate.getTextContent());
+
+
+
+                            unShow.setDatePublication(date.getTime());
+                        } catch (ParseException ex) {
+
+                        }
+
+
+
 
 
                         unShow.setDescription(subtitle.getTextContent());

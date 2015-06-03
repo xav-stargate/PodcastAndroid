@@ -23,6 +23,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_NOM_SHOW = "nom";
     public static final String COLUMN_MP3_SHOW = "mp3";
     public static final String COLUMN_DESCRIPTION_SHOW = "description";
+    public static final String COLUMN_DATE_PUBLICATION_SHOW = "datePublication";
 
 
     private static final String DATABASE_NAME = "podcasts895459.db";
@@ -35,7 +36,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             + " INTEGER, " + COLUMN_NOM_SHOW
             + " TEXT NOT NULL, "+ COLUMN_MP3_SHOW
             + " TEXT, "+ COLUMN_DESCRIPTION_SHOW
-            + " TEXT); ";
+            + " TEXT, "+ COLUMN_DATE_PUBLICATION_SHOW
+            + " INTEGER); ";
 
     private static final String DATABASE_CREATE2 = "CREATE TABLE "
             + TABLE_PODCAST + "(" + COLUMN_ID

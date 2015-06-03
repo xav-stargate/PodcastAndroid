@@ -44,6 +44,8 @@ public class MediaPlayerService extends Service {
     }
 
     private void handleIntent( Intent intent ) {
+
+        Log.d(CONF_Application.NAME_LOG, "OKK handleIntent");
         if( intent == null || intent.getAction() == null )
             return;
 
@@ -71,9 +73,9 @@ public class MediaPlayerService extends Service {
 
     private void buildNotification(Notification.Action action ) {
 
-
+        Log.d(CONF_Application.NAME_LOG, "OKK buildNotification");
         Notification.MediaStyle style = new Notification.MediaStyle();
-        style.setMediaSession( m_objMediaSession.getSessionToken() );
+        style.setMediaSession(m_objMediaSession.getSessionToken());
 
         Intent intent = new Intent( getApplicationContext(), MediaPlayerService.class);
         intent.setAction( CONF_Application.ACTION_STOP );
@@ -100,6 +102,7 @@ public class MediaPlayerService extends Service {
     }
 
     private Notification.Action generateAction( int icon, String title, String intentAction ) {
+        Log.d(CONF_Application.NAME_LOG, "OKK generateAction");
         Intent intent = new Intent( getApplicationContext(), MediaPlayerService.class );
         intent.setAction( intentAction );
         PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(), 1, intent, 0);
@@ -152,10 +155,20 @@ public class MediaPlayerService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if( m_objMediaSessionManager == null ) {
-            String mp3Show = intent.getStringExtra("mp3Show");
-            Long idShow  = intent.getLongExtra("idShow", 0);
 
+        Long idShow = 0L;
+        String mp3Show = null;
+        if(intent != null) {
+            mp3Show = intent.getStringExtra("mp3Show");
+            idShow = intent.getLongExtra("idShow", 0);
+        }
+
+        if((m_objMediaSessionManager == null || myShow.getIdShow() != idShow) && idShow != 0) {
+
+            if(myShow != null)
+            {
+                m_objMediaPlayer.stop();
+            }
 
             //DataBase
             PodcastDataSource mesPodcast = new PodcastDataSource(this);
@@ -173,8 +186,10 @@ public class MediaPlayerService extends Service {
 
             Log.d(CONF_Application.NAME_LOG, "OKK 2");
 
+
             initMediaSessions();
         }
+        Log.d(CONF_Application.NAME_LOG, "OKK 1");
 
 
         handleIntent( intent );
@@ -187,7 +202,7 @@ public class MediaPlayerService extends Service {
 
         m_objMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
-        Log.d(CONF_Application.NAME_LOG, "OKK");
+        Log.d(CONF_Application.NAME_LOG, "OKK initMediaSessions");
 
         try {
             m_objMediaPlayer.setDataSource(this, uri);

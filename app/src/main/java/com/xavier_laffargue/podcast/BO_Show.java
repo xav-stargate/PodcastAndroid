@@ -18,7 +18,7 @@ public class BO_Show
     private String author;
     private String category;
     private String mp3;
-    private String datePublication;
+    private Long datePublication;
     private String subtitle;
     private String duration;
 
@@ -57,11 +57,11 @@ public class BO_Show
         this.duration = duration;
     }
 
-    public String getDatePublication() {
+    public Long getDatePublication() {
         return datePublication;
     }
 
-    public void setDatePublication(String datePublication) {
+    public void setDatePublication(Long datePublication) {
         this.datePublication = datePublication;
     }
 
