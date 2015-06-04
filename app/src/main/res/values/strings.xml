@@ -9,4 +9,7 @@
     <string name="title_activity_activity_setting_podcast">Paramètres</string>
     <string name="title_activity_activity_liste_podcast">Mes Podcasts</string>
     <string name="title_activity_activity_player_show">Player</string>
+    <string name="title_no_internet">Internet</string>
+    <string name="error_no_internet">Vous devez être connecte à internet pour continuer</string>
+    <string name="button_ok">OK</string>
 </resources>

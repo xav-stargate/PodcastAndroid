@@ -46,11 +46,14 @@ public class MediaPlayerService extends Service {
     private void handleIntent( Intent intent ) {
 
         Log.d(CONF_Application.NAME_LOG, "OKK handleIntent");
-        if( intent == null || intent.getAction() == null )
+        if( intent == null || intent.getAction() == null ) {
+            Log.d(CONF_Application.NAME_LOG, "OKK handleIntent isNull");
             return;
+        }
 
+        Log.d(CONF_Application.NAME_LOG, "OKK action ");
         String action = intent.getAction();
-
+        Log.d(CONF_Application.NAME_LOG, "OKK action " + action);
         if( action.equalsIgnoreCase( CONF_Application.ACTION_PLAY ) ) {
             m_objMediaController.getTransportControls().play();
             m_objMediaPlayer.start();

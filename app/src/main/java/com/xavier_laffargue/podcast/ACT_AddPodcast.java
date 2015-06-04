@@ -65,6 +65,7 @@ public class ACT_AddPodcast extends Activity {
 
                 mesPodcast.ajouterPodcast(podcastDownloaded, mesShow);
 
+                startActivity(new Intent(getApplicationContext(), ACT_ListePodcast_RecycleView.class));
             }});
         pod.execute(urlFileXML);
 
@@ -84,9 +85,9 @@ public class ACT_AddPodcast extends Activity {
             case R.id.action_add:
                 openAdd();
                 return true;
-            case R.id.action_settings:
+           /* case R.id.action_settings:
                 openSettings();
-                return true;
+                return true;*/
             default:
                 return super.onOptionsItemSelected(item);
         }

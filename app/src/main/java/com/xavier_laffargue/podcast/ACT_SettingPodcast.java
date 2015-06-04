@@ -29,9 +29,9 @@ public class ACT_SettingPodcast extends Activity {
             case R.id.action_add:
                 openAdd();
                 return true;
-            case R.id.action_settings:
+           /* case R.id.action_settings:
                 openSettings();
-                return true;
+                return true;*/
             default:
                 return super.onOptionsItemSelected(item);
         }

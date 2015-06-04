@@ -1,6 +1,8 @@
 package com.xavier_laffargue.podcast;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -32,7 +34,20 @@ public class ACT_ListePodcast_RecycleView extends Activity {
         setContentView(R.layout.activity_recycle_view_podcast);
 
 
-
+        if(!CONF_Application.isNetworkConnected(getApplicationContext()))
+        {
+            AlertDialog alertDialog = new AlertDialog.Builder(ACT_ListePodcast_RecycleView.this).create();
+            alertDialog.setTitle(getString(R.string.title_no_internet));
+            alertDialog.setMessage(getString(R.string.error_no_internet));
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.button_ok),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            finish();
+                        }
+                    });
+            alertDialog.show();
+        }
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -83,9 +98,9 @@ public class ACT_ListePodcast_RecycleView extends Activity {
             case R.id.action_add:
                 openAdd();
                 return true;
-            case R.id.action_settings:
+           /* case R.id.action_settings:
                 openSettings();
-                return true;
+                return true;*/
             default:
                 return super.onOptionsItemSelected(item);
         }
