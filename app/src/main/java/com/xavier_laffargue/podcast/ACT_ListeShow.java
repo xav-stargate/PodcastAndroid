@@ -61,7 +61,7 @@ public class ACT_ListeShow extends Activity {
         iconePodcast = (ImageView)findViewById(R.id.icone_podcast_show);
         txt_description = (TextView)findViewById(R.id.txt_description_show);
         buttonRefresh = (FloatingActionButton) findViewById(R.id.button_refresh);
-        buttonSupprimer = (ImageButton)findViewById(R.id.button_delete_show);
+        //buttonSupprimer = (ImageButton)findViewById(R.id.button_delete_show);
 
         Log.d(CONF_Application.NAME_LOG, Long.toString(monPodcast.getId()));
         setTitle(monPodcast.getNom());
@@ -92,7 +92,7 @@ public class ACT_ListeShow extends Activity {
             }
         });
 
-        buttonSupprimer.setOnClickListener(new View.OnClickListener() {
+        /*buttonSupprimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mesPodcast.supprimerPodcast(monPodcast);
@@ -100,7 +100,7 @@ public class ACT_ListeShow extends Activity {
                 Intent intent = new Intent(ACT_ListeShow.this, ACT_ListePodcast_RecycleView.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
 
 
@@ -132,7 +132,7 @@ public class ACT_ListeShow extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_default, menu);
+        getMenuInflater().inflate(R.menu.menu_podcast, menu);
         return true;
     }
 
@@ -143,6 +143,9 @@ public class ACT_ListeShow extends Activity {
             case R.id.action_add:
                 openAdd();
                 return true;
+            case R.id.action_delete:
+                delete();
+                return true;
             /*case R.id.action_settings:
                 openSettings();
                 return true;*/
@@ -151,6 +154,12 @@ public class ACT_ListeShow extends Activity {
         }
     }
 
+    public void delete() {
+        mesPodcast.supprimerPodcast(monPodcast);
+
+        Intent intent = new Intent(ACT_ListeShow.this, ACT_ListePodcast_RecycleView.class);
+        startActivity(intent);
+    }
 
     public void openAdd() {
         startActivity(new Intent(this, ACT_AddPodcast.class));
